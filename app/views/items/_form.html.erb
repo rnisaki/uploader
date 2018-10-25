@@ -1,0 +1,41 @@
+<%= form_with(model: item, local: true) do |f| %>
+  <% if item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(item.errors.count, "error") %> prohibited this item from being saved:</h2>
+
+      <ul>
+      <% item.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <% if @item.image? %>
+     <div class="thumbnail">
+         <%= image_tag @item.image.url %>
+     </div>
+    <% end %><br>
+    <%= f.label :image %><br>
+    <%= f.file_field :image %>
+    <%= f.hidden_field :image_cache %>
+  </div>
+  <div class="field">
+  <% if @item.persisted? && @item.image? %>
+    <label>
+      <%= f.check_box :remove_image %>
+      画像を削除
+    </label>
+  <% end %> 
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
